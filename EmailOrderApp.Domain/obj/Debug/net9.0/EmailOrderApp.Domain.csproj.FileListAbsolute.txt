@@ -1,0 +1,12 @@
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\bin\Debug\net9.0\EmailOrderApp.Domain.deps.json
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\bin\Debug\net9.0\EmailOrderApp.Domain.dll
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\bin\Debug\net9.0\EmailOrderApp.Domain.pdb
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.AssemblyInfoInputs.cache
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.AssemblyInfo.cs
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.csproj.CoreCompileInputs.cache
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.sourcelink.json
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.dll
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\refint\EmailOrderApp.Domain.dll
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\EmailOrderApp.Domain.pdb
+G:\CS_projects\emailOrderApp\EmailOrderApp.Domain\obj\Debug\net9.0\ref\EmailOrderApp.Domain.dll
