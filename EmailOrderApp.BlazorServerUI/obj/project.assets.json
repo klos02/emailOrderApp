@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp\\EmailOrderApp.BlazorServerUI.csproj",
+      "projectUniqueName": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.BlazorServerUI\\EmailOrderApp.BlazorServerUI.csproj",
       "projectName": "EmailOrderApp.BlazorServerUI",
-      "projectPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp\\EmailOrderApp.BlazorServerUI.csproj",
+      "projectPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.BlazorServerUI\\EmailOrderApp.BlazorServerUI.csproj",
       "packagesPath": "C:\\Users\\thequ\\.nuget\\packages\\",
-      "outputPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp\\obj\\",
+      "outputPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.BlazorServerUI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\thequ\\AppData\\Roaming\\NuGet\\NuGet.Config"
