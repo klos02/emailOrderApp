@@ -7,5 +7,5 @@ public interface IOrderRepository
 {
     Task<Order?> GetByOrderNumberAsync(int OrderNumber);
     Task<IEnumerable<Order>> GetAllAsync();
-    Task<bool> AddAsync(Order order);
+    Task AddAsync(Order order);
 }
