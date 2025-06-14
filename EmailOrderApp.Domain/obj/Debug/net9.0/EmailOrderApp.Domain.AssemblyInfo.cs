@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailOrderApp.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7449795c986f184d9b2ca50a901faf98121f357f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e4fab5ee1e5c34a9341bc2ef1a6c3bd6e764da6")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailOrderApp.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailOrderApp.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

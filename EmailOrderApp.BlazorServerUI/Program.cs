@@ -1,10 +1,26 @@
+using DotNetEnv;
 using EmailOrderApp.BlazorServerUI.Components;
+using EmailOrderApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Env.Load();
+
+string connectionString = $"server={Environment.GetEnvironmentVariable("DB_HOST")};" +
+                          $"port={Environment.GetEnvironmentVariable("DB_PORT")};" +
+                          $"database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+                          $"uid={Environment.GetEnvironmentVariable("DB_USER")};" +
+                          $"password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+
 // Add services to the container.
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
 
 var app = builder.Build();
 

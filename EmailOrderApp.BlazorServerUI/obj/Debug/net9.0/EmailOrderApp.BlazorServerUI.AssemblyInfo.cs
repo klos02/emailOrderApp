@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailOrderApp.BlazorServerUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f81a2170fd2473d3c66477218df8bf0eaec67d1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e4fab5ee1e5c34a9341bc2ef1a6c3bd6e764da6")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailOrderApp.BlazorServerUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailOrderApp.BlazorServerUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
