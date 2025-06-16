@@ -16,12 +16,12 @@ public class OrderRepository(AppDbContext context) : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
-        var orders = await context.Orders.ToListAsync();
-        return orders;
+        return await context.Orders.ToListAsync();
+
     }
 
-    public Task<Order?> GetByOrderNumberAsync(int OrderNumber)
+    public async Task<Order?> GetByOrderNumberAsync(int orderNumber)
     {
-        throw new NotImplementedException();
+        return await context.Orders.FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
     }
 }
