@@ -13,7 +13,7 @@ using MimeKit;
 
 namespace EmailOrderApp.Infrastructure.Services;
 
-public class EmailReceiver(IEmailMessageRepository repository, IUnitOfWork unitOfWork, IOptions<EmailSettings> options, ILogger<EmailReceiver> logger) : IEmailReceiver
+public class EmailReceiver(IEmailMessageRepository repository, IUnitOfWork unitOfWork, IOptions<EmailSettings> options) : IEmailReceiver
 {
 
 
