@@ -3,7 +3,7 @@ using EmailOrderApp.Domain.Entities;
 
 namespace EmailOrderApp.Application.Interfaces;
 
-public interface IOrderParser
+public interface INotParsedMails
 {
-    Task<IEnumerable<Order>> ParseOrderFromEmailAsync();
+    Task<IEnumerable<EmailMessage>> GetNotParsedMailsAsync();
 }

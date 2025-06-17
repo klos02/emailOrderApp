@@ -3,10 +3,13 @@ using DotNetEnv;
 using EmailOrderApp.Application.Interfaces;
 using EmailOrderApp.BlazorServerUI.Components;
 using EmailOrderApp.Domain.Interfaces;
+using EmailOrderApp.Infrastructure.AIClients;
 using EmailOrderApp.Infrastructure.Data;
 using EmailOrderApp.Infrastructure.Imap;
 using EmailOrderApp.Infrastructure.Services;
+using EmailOrderApp.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,12 @@ var emailOptions = new EmailSettings
     Password = Environment.GetEnvironmentVariable("EmailSettings_Password"),
 };
 
+var geminiOptions = new GeminiSettings
+{
+    ApiKey = Environment.GetEnvironmentVariable("GeminiSettings_ApiKey"),
+    Model = Environment.GetEnvironmentVariable("GeminiSettings_Model")
+};
+
 // Add services to the container.
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,6 +45,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IEmailReceiver, EmailReceiver>();
 builder.Services.AddScoped<IEmailMessageRepository, EmailMessageRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IOrderParser, OrderParser>();
+builder.Services.AddScoped<INotParsedMails, NotParsedMails>();
 builder.Services.Configure<EmailSettings>(options =>
 {
     options.ImapHost = emailOptions.ImapHost;
@@ -44,6 +55,13 @@ builder.Services.Configure<EmailSettings>(options =>
     options.Password = emailOptions.Password;
 }
 );
+builder.Services.Configure<GeminiSettings>(options =>
+{
+    options.ApiKey = geminiOptions.ApiKey;
+    options.Model = geminiOptions.Model;
+}
+);
+builder.Services.AddHttpClient<GeminiClient>();
 
 
 builder.Logging.AddConsole();
