@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EmailOrderApp.Application\EmailOrderApp.Application.csproj" />
     <ProjectReference Include="..\EmailOrderApp.Domain\EmailOrderApp.Domain.csproj" />
   </ItemGroup>
 

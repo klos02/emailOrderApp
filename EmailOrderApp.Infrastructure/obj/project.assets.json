@@ -997,6 +997,19 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "EmailOrderApp.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "EmailOrderApp.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/EmailOrderApp.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EmailOrderApp.Application.dll": {}
+        }
+      },
       "EmailOrderApp.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -3042,6 +3055,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "EmailOrderApp.Application/1.0.0": {
+      "type": "project",
+      "path": "../EmailOrderApp.Application/EmailOrderApp.Application.csproj",
+      "msbuildProject": "../EmailOrderApp.Application/EmailOrderApp.Application.csproj"
+    },
     "EmailOrderApp.Domain/1.0.0": {
       "type": "project",
       "path": "../EmailOrderApp.Domain/EmailOrderApp.Domain.csproj",
@@ -3050,6 +3068,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "EmailOrderApp.Application >= 1.0.0",
       "EmailOrderApp.Domain >= 1.0.0",
       "MailKit >= 4.12.1",
       "Microsoft.EntityFrameworkCore >= 9.0.6",
@@ -3082,6 +3101,9 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.Application\\EmailOrderApp.Application.csproj": {
+              "projectPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.Application\\EmailOrderApp.Application.csproj"
+            },
             "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.Domain\\EmailOrderApp.Domain.csproj": {
               "projectPath": "G:\\CS_projects\\emailOrderApp\\EmailOrderApp.Domain\\EmailOrderApp.Domain.csproj"
             }

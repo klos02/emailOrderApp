@@ -16,3 +16,5 @@ G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\obj\Debug\net9.0\Email
 G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\obj\Debug\net9.0\ref\EmailOrderApp.Infrastructure.dll
 G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\bin\Debug\net9.0\EmailOrderApp.Infrastructure.runtimeconfig.json
 G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\obj\Debug\net9.0\EmailOrderApp.Infrastructure.genruntimeconfig.cache
+G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\bin\Debug\net9.0\EmailOrderApp.Application.dll
+G:\CS_projects\emailOrderApp\EmailOrderApp.Infrastructure\bin\Debug\net9.0\EmailOrderApp.Application.pdb

@@ -1,0 +1,67 @@
+﻿@page "/emails"
+@rendermode InteractiveServer
+@using EmailOrderApp.Application.Interfaces
+@using EmailOrderApp.Domain.Entities
+@using EmailOrderApp.Domain.Interfaces
+@inject IEmailMessageRepository EmailRepository
+@inject IEmailReceiver EmailReceiver
+
+<h1 class="text-2xl font-bold mb-4">Zamówienia</h1>
+
+<button @onclick="FetchEmails" class="bg-blue-500">
+    Pobierz nowe maile
+</button>
+
+
+@if (loading)
+{
+    <p>Ładowanie...</p>
+}
+else if (emails is null || !emails.Any())
+{
+    <p>Brak wiadomości.</p>
+}
+else
+{
+    <ul class="space-y-4">
+        @foreach (var email in emails)
+        {
+            <li class="p-4 border rounded shadow">
+                <div><strong>Treść:</strong> @email.BodyText</div>
+            </li>
+        }
+    </ul>
+}
+@code {
+    private List<EmailMessage>? emails;
+    private bool loading;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+     private async Task FetchEmails()
+    {
+        try{
+        loading = true;
+        //StateHasChanged();
+
+        await EmailReceiver.FetchAndSaveEmailAsync();
+        await LoadEmailsAsync();
+        loading = false;
+        
+
+        }catch(Exception ex){
+            Console.WriteLine(ex.Message);
+            loading = false;
+            //StateHasChanged();
+        }
+    }
+
+     private async Task LoadEmailsAsync()
+    {
+        emails = await EmailRepository.GetAllAsync();
+    }
+}
