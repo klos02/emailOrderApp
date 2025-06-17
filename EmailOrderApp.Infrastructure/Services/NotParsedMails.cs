@@ -1,10 +1,11 @@
 using System;
 using EmailOrderApp.Application.Interfaces;
 using EmailOrderApp.Domain.Entities;
+using EmailOrderApp.Domain.Interfaces;
 
 namespace EmailOrderApp.Infrastructure.Services;
 
-public class NotParsedMails(EmailMessageRepository messageRepository, OrderRepository orderRepository) : INotParsedMails
+public class NotParsedMails(IEmailMessageRepository messageRepository, IOrderRepository orderRepository) : INotParsedMails
 {
     public async Task<IEnumerable<EmailMessage>> GetNotParsedMailsAsync()
     {

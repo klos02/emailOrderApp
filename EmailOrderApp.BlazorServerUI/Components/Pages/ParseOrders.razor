@@ -1,0 +1,62 @@
+﻿@page "/parseorders"
+@rendermode InteractiveServer
+@using EmailOrderApp.Application.Interfaces
+@using EmailOrderApp.Domain.Entities
+@inject IOrderParser OrderParser
+
+<h3>Parsowanie zamówień z e-maili</h3>
+
+<button class="btn btn-primary" @onclick="ParseOrdersFromEmails">Parsuj nowe zamówienia</button>
+
+@if (orders != null && orders.Any())
+{
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Numer zamówienia</th>
+                <th>Klient</th>
+                <th>Data</th>
+                <th>Suma</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.OrderNumber</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                    <td>@order.TotalAmount.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (loading)
+{
+    <p>Parsowanie trwa...</p>
+}
+else if (parsed)
+{
+    <p>Brak nowych zamówień do sparsowania.</p>
+}
+
+@code {
+    private List<Order> orders = new();
+    private bool loading = false;
+    private bool parsed = false;
+
+    private async Task ParseOrdersFromEmails()
+    {
+        loading = true;
+        parsed = false;
+        orders.Clear();
+
+        var result = await OrderParser.ParseOrderFromEmailAsync();
+
+        orders = result.ToList();
+
+        loading = false;
+        parsed = true;
+    }
+}

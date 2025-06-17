@@ -44,6 +44,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IEmailReceiver, EmailReceiver>();
 builder.Services.AddScoped<IEmailMessageRepository, EmailMessageRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderParser, OrderParser>();
 builder.Services.AddScoped<INotParsedMails, NotParsedMails>();

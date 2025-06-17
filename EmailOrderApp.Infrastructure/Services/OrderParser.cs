@@ -75,11 +75,23 @@ public class OrderParser(INotParsedMails notParsedMails, IOptions<GeminiSettings
 
     private static Order JsonToOrder(string response)
     {
-        var options = new JsonSerializerOptions
+        var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(response);
+
+        if (geminiResponse?.candidates?.FirstOrDefault()?.content?.parts?.FirstOrDefault()?.text is not string rawText)
+            throw new Exception("Brak tekstu w odpowiedzi modelu");
+
+
+        rawText = rawText.Replace("```json", "")
+                         .Replace("```", "")
+                         .Trim();
+
+
+        var order = JsonSerializer.Deserialize<Order>(rawText, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
-        };
+        });
 
-        return JsonSerializer.Deserialize<Order>(response, options);
+        return order ?? throw new Exception("Nie udało się zdeserializować zamówienia");
     }
 }
+
