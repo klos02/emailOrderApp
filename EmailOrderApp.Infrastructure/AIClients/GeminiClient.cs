@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Text.Json;
+using EmailOrderApp.Domain.Entities;
 using EmailOrderApp.Infrastructure.Settings;
 using Microsoft.Extensions.Options;
 
@@ -33,6 +34,27 @@ public class GeminiClient(HttpClient httpClient, IOptions<GeminiSettings> option
         var responseBody = await response.Content.ReadAsStringAsync();
 
         return responseBody;
-        
+
+    }
+    
+    public Order JsonToOrder(string response)
+    {
+        var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(response);
+
+        if (geminiResponse?.candidates?.FirstOrDefault()?.content?.parts?.FirstOrDefault()?.text is not string rawText)
+            throw new Exception("Brak tekstu w odpowiedzi modelu");
+
+
+        rawText = rawText.Replace("```json", "")
+                         .Replace("```", "")
+                         .Trim();
+
+
+        var order = JsonSerializer.Deserialize<Order>(rawText, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        return order ?? throw new Exception("Nie udało się zdeserializować zamówienia");
     }
 }
