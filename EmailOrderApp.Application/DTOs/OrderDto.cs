@@ -10,6 +10,7 @@ public class OrderDto
     public string CustomerName { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }
     public List<OrderItemDto> OrderItems { get; set; } = [];
+    public bool IsExpanded { get; set; } = false;
 
      
 }

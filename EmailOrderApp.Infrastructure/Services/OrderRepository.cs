@@ -16,7 +16,7 @@ public class OrderRepository(AppDbContext context) : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
-        return await context.Orders.ToListAsync();
+        return await context.Orders.Include(o => o.OrderItems).ToListAsync();
 
     }
 

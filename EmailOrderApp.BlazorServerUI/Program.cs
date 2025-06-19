@@ -1,6 +1,7 @@
 using System.Text;
 using DotNetEnv;
 using EmailOrderApp.Application.Interfaces;
+using EmailOrderApp.Application.Services;
 using EmailOrderApp.BlazorServerUI.Components;
 using EmailOrderApp.Domain.Interfaces;
 using EmailOrderApp.Infrastructure.AIClients;
@@ -10,6 +11,7 @@ using EmailOrderApp.Infrastructure.Services;
 using EmailOrderApp.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +50,9 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderParser, OrderParser>();
 builder.Services.AddScoped<INotParsedMails, NotParsedMails>();
+builder.Services.AddScoped<IOrderProcessingService, OrderProcessingService>();
+builder.Services.AddScoped<IEmailProcessingService, EmailProcessingService>();
+builder.Services.AddScoped<IOrderSaver, OrderSaver>();
 builder.Services.Configure<EmailSettings>(options =>
 {
     options.ImapHost = emailOptions.ImapHost;

@@ -6,7 +6,7 @@ namespace EmailOrderApp.Application.Interfaces;
 public interface IOrderProcessingService
 {
     Task<int> ParseAndSaveOrdersAsync();
-    Task<IEnumerable<OrderDto>> GetAllAsync();
+    Task<List<OrderDto>> GetAllAsync();
 
 
 }

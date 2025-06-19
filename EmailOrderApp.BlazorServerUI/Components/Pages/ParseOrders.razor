@@ -1,18 +1,20 @@
 ﻿@page "/parseorders"
 @rendermode InteractiveServer
 @using EmailOrderApp.Application.Interfaces
-@using EmailOrderApp.Domain.Entities
-@inject IOrderParser OrderParser
+@using EmailOrderApp.Application.DTOs
+@inject IOrderProcessingService OrderProcessingService
 
 <h3>Parsowanie zamówień z e-maili</h3>
 
-<button class="btn btn-primary" @onclick="ParseOrdersFromEmails">Parsuj nowe zamówienia</button>
+<button class="btn btn-primary" @onclick="ParseNewOrdersAsync">Parsuj nowe zamówienia</button>
+<button class="btn btn-secondary ms-2" @onclick="GetAllOrdersAsync">Wyświetl zamówienia</button>
 
 @if (orders != null && orders.Any())
 {
-    <table class="table mt-3">
-        <thead>
+    <table class="table mt-3 table-bordered">
+        <thead class="table-dark">
             <tr>
+                <th></th>
                 <th>Numer zamówienia</th>
                 <th>Klient</th>
                 <th>Data</th>
@@ -23,11 +25,44 @@
             @foreach (var order in orders)
             {
                 <tr>
+                    <td>
+                        <button class="btn btn-sm btn-info" @onclick="@(() => ToggleExpand(order))">
+                            @(expandedOrder == order ? "−" : "+")
+                        </button>
+                    </td>
                     <td>@order.OrderNumber</td>
                     <td>@order.CustomerName</td>
                     <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
                     <td>@order.TotalAmount.ToString("C")</td>
                 </tr>
+
+                @if (expandedOrder == order && order.OrderItems.Any())
+                {
+                    <tr>
+                        <td colspan="5">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Produkt</th>
+                                        <th>Ilość</th>
+                                        <th>Cena</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in order.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Count</td>
+                                            <td>@item.Price</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -40,23 +75,61 @@ else if (parsed)
 {
     <p>Brak nowych zamówień do sparsowania.</p>
 }
+else if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
 
 @code {
-    private List<Order> orders = new();
+    private List<OrderDto>? orders;
     private bool loading = false;
     private bool parsed = false;
+    private string errorMessage = string.Empty;
+    private int orderCount;
 
-    private async Task ParseOrdersFromEmails()
+    private OrderDto? expandedOrder;
+
+    private async Task ParseNewOrdersAsync()
     {
-        loading = true;
-        parsed = false;
-        orders.Clear();
+        try
+        {
+            parsed = false;
+            loading = true;
+            orderCount = await OrderProcessingService.ParseAndSaveOrdersAsync();
+            if (orderCount == 0) parsed = true;
 
-        var result = await OrderParser.ParseOrderFromEmailAsync();
 
-        orders = result.ToList();
+            orders = await OrderProcessingService.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
 
-        loading = false;
-        parsed = true;
+    private async Task GetAllOrdersAsync()
+    {
+        try
+        {
+            orders = await OrderProcessingService.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+
+    private void ToggleExpand(OrderDto order)
+    {
+        if (expandedOrder == order)
+            expandedOrder = null;
+        else
+            expandedOrder = order;
     }
 }
+
+

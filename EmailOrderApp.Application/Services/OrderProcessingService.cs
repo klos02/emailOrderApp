@@ -7,7 +7,7 @@ namespace EmailOrderApp.Application.Services;
 
 public class OrderProcessingService(IOrderSaver orderSaver, IOrderRepository orderRepository) : IOrderProcessingService
 {
-    public async Task<IEnumerable<OrderDto>> GetAllAsync()
+    public async Task<List<OrderDto>> GetAllAsync()
     {
         var orders = await orderRepository.GetAllAsync();
 

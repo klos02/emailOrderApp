@@ -1,15 +1,19 @@
 ﻿@page "/emails"
 @rendermode InteractiveServer
 @using EmailOrderApp.Application.Interfaces
-@using EmailOrderApp.Domain.Entities
-@using EmailOrderApp.Domain.Interfaces
-@inject IEmailMessageRepository EmailRepository
-@inject IEmailReceiver EmailReceiver
+@using EmailOrderApp.Application.DTOs;
+
+@inject IEmailProcessingService EmailProcessingService
+
 
 <h1 class="text-2xl font-bold mb-4">Zamówienia</h1>
 
 <button @onclick="FetchEmails" class="bg-blue-500">
     Pobierz nowe maile
+</button>
+
+<button @onclick="GetEmails" class="bg-blue-500">
+    Wyświetl maile
 </button>
 
 
@@ -27,37 +31,40 @@ else
         @foreach (var email in emails)
         {
             <li class="p-4 border rounded shadow">
-                <div><strong>Treść:</strong> @email.BodyText</div>
+                <div><strong>Id:</strong> @email.Id.</div>
+                <div><strong>Treść:</strong> @email.BodyText.</div>
             </li>
         }
     </ul>
 }
 @code {
-    private List<EmailMessage>? emails;
+    private List<EmailMessageDto>? emails;
     private bool loading;
-    
+    private string errorMessage = string.Empty;
 
+    private async Task FetchEmails(){
 
-     private async Task FetchEmails()
-    {
         try{
-        loading = true;
-        //StateHasChanged();
-
-        await EmailReceiver.FetchAndSaveEmailAsync();
-        await LoadEmailsAsync();
-        loading = false;
-        
-
-        }catch(Exception ex){
-            Console.WriteLine(ex.Message);
+            loading = true;
+            await EmailProcessingService.FetchAndProcessEmailsAsync();
+        } catch(Exception ex){
+            errorMessage = ex.Message;
+        } finally {
             loading = false;
-            //StateHasChanged();
+        }
+    
+    }
+
+    private async Task GetEmails(){
+        try{
+            loading = true;
+            emails = await EmailProcessingService.GetEmailsAsync();
+        } catch (Exception ex){
+            errorMessage = ex.Message;
+        } finally {
+            loading = false;
         }
     }
 
-     private async Task LoadEmailsAsync()
-    {
-        emails = await EmailRepository.GetAllAsync();
-    }
 }
+
