@@ -8,13 +8,16 @@ public class OrderSaver(IOrderRepository orderRepository, IUnitOfWork unitOfWork
 {
     public async Task<int> SaveNewOrdersAsync()
     {
+        int count = 0;
         var orders = await orderParser.ParseOrderFromEmailAsync();
 
         foreach (var order in orders)
         {
             await orderRepository.AddAsync(order);
+            count++;
         }
 
-        return await unitOfWork.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync(); // nie zwracam tego, bo zamiast liczby samych zamówień zwraca także liczbę przedmiotów w zamówieniach
+        return count;
     }
 }

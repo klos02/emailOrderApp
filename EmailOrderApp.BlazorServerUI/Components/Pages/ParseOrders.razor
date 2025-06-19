@@ -1,16 +1,19 @@
-﻿@page "/parseorders"
+﻿@page "/"
 @rendermode InteractiveServer
 @using EmailOrderApp.Application.Interfaces
 @using EmailOrderApp.Application.DTOs
 @using Radzen
 @using Radzen.Blazor
 @inject IOrderProcessingService OrderProcessingService
+@inject NotificationService NotificationService
 
-<h3>Parsowanie zamówień z e-maili</h3>
 
-<RadzenButton Text="Parsuj nowe zamówienia" Click="ParseNewOrdersAsync" Style="margin-bottom: 1rem;" />
-<RadzenButton Text="Wyświetl zamówienia" Click="GetAllOrdersAsync" ButtonStyle="ButtonStyle.Secondary"
-    Style="margin-bottom: 1rem; margin-left: 0.5rem;" />
+<RadzenNotification />
+<RadzenButton Text="Pobierz nowe zamówienia" Click="ParseNewOrdersAsync" ButtonStyle="ButtonStyle.Primary" />
+<RadzenButton Text="Wyświetl zamówienia" Click="GetAllOrdersAsync" ButtonStyle="ButtonStyle.Secondary"/>
+@if(loading){
+    <RadzenProgressBarCircular Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate"></RadzenProgressBarCircular>
+}
 
 @if (orders != null && orders.Any())
 {
@@ -24,7 +27,7 @@
                     @order.OrderDate.ToString("yyyy-MM-dd")
                 </Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="OrderDto" Title="Suma">
+            <RadzenDataGridColumn TItem="OrderDto" Title="Suma z dostawą">
                 <Template Context="order">
                     @order.TotalAmount.ToString("C")
                 </Template>
@@ -47,43 +50,35 @@
         </Template>
     </RadzenDataGrid>
 }
-else if (loading)
-{
-    <p>Parsowanie trwa...</p>
-}
-else if (parsed)
-{
-    <p>Brak nowych zamówień do sparsowania.</p>
-}
-else if (!string.IsNullOrEmpty(errorMessage))
-{
-    <div class="alert alert-danger">@errorMessage</div>
-}
+
 
 @code {
     private List<OrderDto>? orders;
     private RadzenDataGrid<OrderDto>? grid;
     private bool loading = false;
     private bool parsed = false;
-    private string errorMessage = string.Empty;
+    
     private int orderCount;
 
     private async Task ParseNewOrdersAsync()
     {
         try
         {
-            parsed = false;
             loading = true;
-            errorMessage = "";
-
             orderCount = await OrderProcessingService.ParseAndSaveOrdersAsync();
-            if (orderCount == 0) parsed = true;
+            //throw new NullReferenceException();
+            if (orderCount == 0) ShowNotification("Brak nowych zamówień.", NotificationSeverity.Info);
+            else ShowNotification($"Zarejestrowano nowe zamówienia: {orderCount}", NotificationSeverity.Success);
+
+            //Thread.Sleep(2000);
+
 
             orders = await OrderProcessingService.GetAllAsync();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            errorMessage = ex.Message;
+            
+            ShowNotification($"Błąd podczas rejestrowania zamówień",NotificationSeverity.Error);
         }
         finally
         {
@@ -95,12 +90,28 @@ else if (!string.IsNullOrEmpty(errorMessage))
     {
         try
         {
-            errorMessage = "";
+            loading = true;
+            
             orders = await OrderProcessingService.GetAllAsync();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            errorMessage = ex.Message;
+            ShowNotification($"Błąd",NotificationSeverity.Error);
         }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    void ShowNotification(string message, NotificationSeverity severity)
+    {
+        var notificationMessage = new NotificationMessage {
+            Severity = severity,
+            Summary = message,
+            Duration = 3000
+        };
+
+        NotificationService.Notify(notificationMessage);
     }
 }

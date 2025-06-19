@@ -11,7 +11,7 @@ using EmailOrderApp.Infrastructure.Services;
 using EmailOrderApp.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using MudBlazor.Services;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,8 +72,7 @@ builder.Services.AddHttpClient<GeminiClient>();
 
 builder.Logging.AddConsole();
 
-builder.Services.AddMudServices();
-
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
