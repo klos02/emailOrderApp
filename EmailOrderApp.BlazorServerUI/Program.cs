@@ -72,6 +72,8 @@ builder.Services.AddHttpClient<GeminiClient>();
 
 builder.Logging.AddConsole();
 
+builder.Services.AddMudServices();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 

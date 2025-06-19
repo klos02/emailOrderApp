@@ -2,70 +2,50 @@
 @rendermode InteractiveServer
 @using EmailOrderApp.Application.Interfaces
 @using EmailOrderApp.Application.DTOs
+@using Radzen
+@using Radzen.Blazor
 @inject IOrderProcessingService OrderProcessingService
 
 <h3>Parsowanie zamówień z e-maili</h3>
 
-<button class="btn btn-primary" @onclick="ParseNewOrdersAsync">Parsuj nowe zamówienia</button>
-<button class="btn btn-secondary ms-2" @onclick="GetAllOrdersAsync">Wyświetl zamówienia</button>
+<RadzenButton Text="Parsuj nowe zamówienia" Click="ParseNewOrdersAsync" Style="margin-bottom: 1rem;" />
+<RadzenButton Text="Wyświetl zamówienia" Click="GetAllOrdersAsync" ButtonStyle="ButtonStyle.Secondary"
+    Style="margin-bottom: 1rem; margin-left: 0.5rem;" />
 
 @if (orders != null && orders.Any())
 {
-    <table class="table mt-3 table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th></th>
-                <th>Numer zamówienia</th>
-                <th>Klient</th>
-                <th>Data</th>
-                <th>Suma</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in orders)
-            {
-                <tr>
-                    <td>
-                        <button class="btn btn-sm btn-info" @onclick="@(() => ToggleExpand(order))">
-                            @(expandedOrder == order ? "−" : "+")
-                        </button>
-                    </td>
-                    <td>@order.OrderNumber</td>
-                    <td>@order.CustomerName</td>
-                    <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
-                    <td>@order.TotalAmount.ToString("C")</td>
-                </tr>
+    <RadzenDataGrid @ref="grid" Data="@orders" TItem="OrderDto" ExpandMode="DataGridExpandMode.Multiple"
+        AllowFiltering="true" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="OrderDto" Title="Numer zamówienia" Property="OrderNumber" />
+            <RadzenDataGridColumn TItem="OrderDto" Title="Klient" Property="CustomerName" />
+            <RadzenDataGridColumn TItem="OrderDto" Title="Data">
+                <Template Context="order">
+                    @order.OrderDate.ToString("yyyy-MM-dd")
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="OrderDto" Title="Suma">
+                <Template Context="order">
+                    @order.TotalAmount.ToString("C")
+                </Template>
+            </RadzenDataGridColumn>
 
-                @if (expandedOrder == order && order.OrderItems.Any())
-                {
-                    <tr>
-                        <td colspan="5">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Produkt</th>
-                                        <th>Ilość</th>
-                                        <th>Cena</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in order.OrderItems)
-                                    {
-                                        <tr>
-                                            <td>@item.Name</td>
-                                            <td>@item.Count</td>
-                                            <td>@item.Price</td>
-
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+        </Columns>
+        <Template Context="order">
+            <RadzenDataGrid Data="@order.OrderItems" TItem="OrderItemDto" ShowPagingSummary="false" AllowSorting="true"
+                AllowFiltering="true">
+                <Columns>
+                    <RadzenDataGridColumn TItem="OrderItemDto" Title="Produkt" Property="Name" />
+                    <RadzenDataGridColumn TItem="OrderItemDto" Title="Ilość" Property="Count" />
+                    <RadzenDataGridColumn TItem="OrderItemDto" Title="Cena" Property="Price">
+                        <Template Context="item">
+                            @item.Price.ToString("C")
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </Template>
+    </RadzenDataGrid>
 }
 else if (loading)
 {
@@ -82,12 +62,11 @@ else if (!string.IsNullOrEmpty(errorMessage))
 
 @code {
     private List<OrderDto>? orders;
+    private RadzenDataGrid<OrderDto>? grid;
     private bool loading = false;
     private bool parsed = false;
     private string errorMessage = string.Empty;
     private int orderCount;
-
-    private OrderDto? expandedOrder;
 
     private async Task ParseNewOrdersAsync()
     {
@@ -95,9 +74,10 @@ else if (!string.IsNullOrEmpty(errorMessage))
         {
             parsed = false;
             loading = true;
+            errorMessage = "";
+
             orderCount = await OrderProcessingService.ParseAndSaveOrdersAsync();
             if (orderCount == 0) parsed = true;
-
 
             orders = await OrderProcessingService.GetAllAsync();
         }
@@ -115,6 +95,7 @@ else if (!string.IsNullOrEmpty(errorMessage))
     {
         try
         {
+            errorMessage = "";
             orders = await OrderProcessingService.GetAllAsync();
         }
         catch (Exception ex)
@@ -122,14 +103,4 @@ else if (!string.IsNullOrEmpty(errorMessage))
             errorMessage = ex.Message;
         }
     }
-
-    private void ToggleExpand(OrderDto order)
-    {
-        if (expandedOrder == order)
-            expandedOrder = null;
-        else
-            expandedOrder = order;
-    }
 }
-
-
