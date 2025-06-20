@@ -15,12 +15,14 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${db}
       - EmailSettings_ImapHost=${EmailSettings_ImapHost}
       - EmailSettings_ImapPort=${EmailSettings_ImapPort}
       - EmailSettings_Username=${EmailSettings_Username}
       - EmailSettings_Password=${EmailSettings_Password}
       - GeminiSettings_ApiKey=${GeminiSettings_ApiKey}
       - GeminiSettings_Model=${GeminiSettings_Model}
+      - ASPNETCORE_ENVIRONMENT=Development
       
 
   db:
@@ -32,7 +34,7 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_HOST=${DB_HOST}
+      - DB_HOST=${db}
     ports:
       - "3306:3306"
     volumes:
