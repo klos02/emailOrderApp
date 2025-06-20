@@ -31,7 +31,7 @@
                     @order.OrderDate.ToString("yyyy-MM-dd")
                 </Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="OrderDto" Title="Suma z dostawą">
+            <RadzenDataGridColumn TItem="OrderDto" Title="Suma z dostawą" Property="TotalAmount">
                 <Template Context="order">
                     @order.TotalAmount.ToString("C")
                 </Template>

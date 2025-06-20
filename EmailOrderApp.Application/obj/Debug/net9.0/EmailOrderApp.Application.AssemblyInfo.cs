@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailOrderApp.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d5cb454c901917269cfe9f2e54c6d354a9d51c9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8f75bff218afe89791b552c3c1b924c77819213")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailOrderApp.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailOrderApp.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

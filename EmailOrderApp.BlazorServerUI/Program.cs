@@ -75,7 +75,7 @@ builder.Services.Configure<GeminiSettings>(options =>
 );
 builder.Services.AddHttpClient<GeminiClient>();
 
-builder.WebHost.UseUrls("http://*:80");
+//builder.WebHost.UseUrls("http://*:80");
 builder.Logging.AddConsole();
 
 builder.Services.AddScoped<NotificationService>();
