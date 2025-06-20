@@ -1,6 +1,6 @@
 # EmailOrderApp
 
-Aplikacja do automatycznego pobierania zamówień e-mailowych, przetwarzania ich za pomocą AI (Gemini API) i wyświetlania w panelu Blazor Server.
+Aplikacja do automatycznego pobierania zamówień z wiadomości e-mail, przetwarzania ich za pomocą AI (Gemini API) i wyświetlania w panelu Blazor Server.
 
 ---
 
