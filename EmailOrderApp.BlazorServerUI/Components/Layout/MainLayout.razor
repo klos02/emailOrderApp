@@ -1,20 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
 @inject NotificationService NotificationService
-
 <link href="_content/Radzen.Blazor/css/default-base.css" rel="stylesheet" />
 <link href="_content/Radzen.Blazor/css/default.css" rel="stylesheet" />
+<div class="page">
 
+    <NavMenu />
+    <RadzenNotification></RadzenNotification>
 
-<NavMenu />
-
-
-<main class="container mt-4">
-    @Body
-</main>
-
-
-<RadzenNotification />
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
