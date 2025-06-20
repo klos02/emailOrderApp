@@ -15,7 +15,7 @@ using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Env.Load();
+//Env.Load();
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 string connectionString = $"server={Environment.GetEnvironmentVariable("DB_HOST")};" +
