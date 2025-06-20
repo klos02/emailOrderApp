@@ -15,7 +15,6 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${db}
       - EmailSettings_ImapHost=${EmailSettings_ImapHost}
       - EmailSettings_ImapPort=${EmailSettings_ImapPort}
       - EmailSettings_Username=${EmailSettings_Username}
@@ -34,7 +33,7 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${db}
+      - DB_HOST=${DB_HOST}
     ports:
       - "3306:3306"
     volumes:

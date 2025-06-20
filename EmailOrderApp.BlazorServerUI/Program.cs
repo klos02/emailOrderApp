@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using DotNetEnv;
 using EmailOrderApp.Application.Interfaces;
@@ -10,7 +11,6 @@ using EmailOrderApp.Infrastructure.Imap;
 using EmailOrderApp.Infrastructure.Services;
 using EmailOrderApp.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +43,12 @@ var geminiOptions = new GeminiSettings
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 42)))
 );
+
+var cultureInfo = new CultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+
 
 builder.Services.AddScoped<IEmailReceiver, EmailReceiver>();
 builder.Services.AddScoped<IEmailMessageRepository, EmailMessageRepository>();
@@ -78,6 +84,13 @@ builder.Services.AddRazorComponents()
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
